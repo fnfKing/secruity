@@ -1,12 +1,15 @@
 package com.fnf.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 
@@ -14,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import javax.swing.*;
 ;
 import java.io.IOException;
 
@@ -33,8 +37,19 @@ public class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyUserDetailServiece userDetailServiece;
 
-    @Autowired
-    private MyPasswordEncoder passwordEncoder;
+//    @Autowired
+//    private MyPasswordEncoder passwordEncoder;
+
+//    @Autowired
+//    private BCryptPasswordEncoder passwordEncoder;
+
+    // 单列创建，每次调用该方法时都会检查是否存在
+//    @Scope(value = "")  指定单例或多例 默认单例
+    @Bean
+    public BCryptPasswordEncoder getBCryptPasswordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+    
 
     // 登入识别设置
     @Override
@@ -53,7 +68,7 @@ public class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
 //                ;
         builder
                 .userDetailsService(userDetailServiece)
-                .passwordEncoder(passwordEncoder)
+                .passwordEncoder(getBCryptPasswordEncoder())
         ;
     }
 
