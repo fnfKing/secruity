@@ -96,10 +96,10 @@ public class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("loginAcct")     // 定制的账号
                 .passwordParameter("userPswd")      // 定制的密码
                 .defaultSuccessUrl("/main.html")    // 登入成功后的页面
-//                .and()
-//                .csrf()
-//                .disable()                          // 禁用csrf功能
                 .and()
+                .csrf()
+                .disable()                          // 禁用csrf功能
+//                .and()
                 .logout()                           // 开启注销功能
                 .logoutUrl("/do/logout.html")       // 自定义注销功能的 URL 地址
                 .logoutSuccessUrl("/index.jsp")     // 退出成功后前往的地址
@@ -117,7 +117,6 @@ public class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMe()    // 开启记住我功能
                 .tokenRepository(repository)
                 ;
-
     }
 }
       
