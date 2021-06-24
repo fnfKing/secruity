@@ -32,6 +32,7 @@ public class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private MyUserDetailServiece userDetailServiece;
+
     // 登入识别设置
     @Override
     protected void configure(AuthenticationManagerBuilder builder) throws Exception {
@@ -49,13 +50,14 @@ public class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
 //                ;
         builder
                 .userDetailsService(userDetailServiece)
-                ;
+        ;
     }
+
     // 请求拦截
     @Override
     protected void configure(HttpSecurity security) throws Exception {
 
-        JdbcTokenRepositoryImpl repository=new JdbcTokenRepositoryImpl();
+        JdbcTokenRepositoryImpl repository = new JdbcTokenRepositoryImpl();
         repository.setDataSource(dataSource);
 
         security
@@ -97,8 +99,8 @@ public class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("userPswd")      // 定制的密码
                 .defaultSuccessUrl("/main.html")    // 登入成功后的页面
                 .and()
-                .csrf()
-                .disable()                          // 禁用csrf功能
+//                .csrf()
+//                .disable()                          // 禁用csrf功能
 //                .and()
                 .logout()                           // 开启注销功能
                 .logoutUrl("/do/logout.html")       // 自定义注销功能的 URL 地址
@@ -109,14 +111,14 @@ public class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedHandler(new AccessDeniedHandler() {
                     @Override
                     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
-                        httpServletRequest.setAttribute("message","fnfnfnnf");
-                        httpServletRequest.getRequestDispatcher("/WEB-INF/views/no_auth.jsp").forward(httpServletRequest,httpServletResponse);
+                        httpServletRequest.setAttribute("message", "fnfnfnnf");
+                        httpServletRequest.getRequestDispatcher("/WEB-INF/views/no_auth.jsp").forward(httpServletRequest, httpServletResponse);
                     }
                 })
                 .and()
                 .rememberMe()    // 开启记住我功能
                 .tokenRepository(repository)
-                ;
+        ;
     }
 }
       
