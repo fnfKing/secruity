@@ -33,6 +33,9 @@ public class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyUserDetailServiece userDetailServiece;
 
+    @Autowired
+    private MyPasswordEncoder passwordEncoder;
+
     // 登入识别设置
     @Override
     protected void configure(AuthenticationManagerBuilder builder) throws Exception {
@@ -50,6 +53,7 @@ public class WebAppSecurityConfig extends WebSecurityConfigurerAdapter {
 //                ;
         builder
                 .userDetailsService(userDetailServiece)
+                .passwordEncoder(passwordEncoder)
         ;
     }
 
